@@ -99,10 +99,10 @@ function initApp() {
               </div>
               <div class="card-content-section">
                 <div class="card-confetti-top"></div>
-                <p class="card-subtitle" id="cardSubtitle">Plus âgée, plus sage, et toujours ma meilleure amie.</p>
                 <h2 class="card-title" id="cardTitle">Pour [Nom]</h2>
                 <p class="card-message" id="cardMessage"></p>
-                <p class="card-personal-message" id="cardPersonalMessage">Je t'aime! J'ai hâte de fêter avec toi cette fin de semaine!</p>
+                <p class="card-personal-message" id="cardPersonalMessage"></p>
+                <p class="card-women-day-message">Bonne journée internationale des droits de la femme</p>
                 <div class="card-confetti-bottom"></div>
               </div>
             </div>
@@ -179,7 +179,6 @@ function handlePhotoUpload(event) {
 function generateCard() {
   const womanName = document.getElementById('womanName').value.trim();
   const message = document.getElementById('message').value.trim();
-  const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
 
   if (!womanName || !message) {
     alert('Veuillez remplir tous les champs');
@@ -189,6 +188,7 @@ function generateCard() {
   // Update card content
   document.getElementById('cardTitle').textContent = womanName.toUpperCase();
   document.getElementById('cardMessage').textContent = message;
+  document.getElementById('cardPersonalMessage').textContent = message;
 
   // Update photo if provided
   if (userPhotoData) {
