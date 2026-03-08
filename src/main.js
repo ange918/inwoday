@@ -187,7 +187,6 @@ function generateCard() {
 
   // Update card content
   document.getElementById('cardTitle').textContent = womanName.toUpperCase();
-  document.getElementById('cardMessage').textContent = message;
   document.getElementById('cardPersonalMessage').textContent = message;
 
   // Update photo if provided
