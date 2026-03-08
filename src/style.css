@@ -248,11 +248,12 @@ body {
 .card {
   background: white;
   border-radius: 24px;
-  padding: 50px 40px;
+  padding: 0;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
   position: relative;
   overflow: hidden;
-  border: 2px solid rgba(217, 70, 239, 0.1);
+  display: flex;
+  min-height: 500px;
 }
 
 .card::before {
@@ -265,13 +266,21 @@ body {
   background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
 }
 
-.card-photo-container {
+.card-content-wrapper {
+  display: flex;
   width: 100%;
-  height: 300px;
-  border-radius: 16px;
+  gap: 0;
+}
+
+.card-photo-container {
+  width: 50%;
+  height: 100%;
+  min-height: 500px;
+  border-radius: 0;
   overflow: hidden;
-  margin-bottom: 30px;
-  box-shadow: 0 10px 30px rgba(217, 70, 239, 0.2);
+  margin-bottom: 0;
+  box-shadow: none;
+  flex-shrink: 0;
 }
 
 .card-photo-container.hidden {
@@ -284,41 +293,65 @@ body {
   object-fit: cover;
 }
 
-.card-header {
+.card-content-section {
+  flex: 1;
+  background: linear-gradient(135deg, #a8e6e0 0%, #a8e6e0 100%);
+  padding: 50px 40px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  margin-bottom: 30px;
+  position: relative;
+  overflow: hidden;
 }
 
-.card-icon {
-  color: var(--primary);
-  animation: float 3s ease-in-out infinite;
+.card-subtitle {
+  font-family: 'Lora', serif;
+  font-size: 0.85rem;
+  color: #2a8a7f;
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  line-height: 1.6;
 }
 
 .card-title {
   font-family: 'Playfair Display', serif;
-  font-size: 2.5rem;
-  color: var(--dark);
+  font-size: 3rem;
+  color: #1b6b61;
   text-align: center;
-  margin-bottom: 20px;
-  font-weight: 700;
-  letter-spacing: -0.5px;
+  margin-bottom: 30px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1.2;
 }
 
 .card-message {
   font-family: 'Lora', serif;
-  font-size: 1.1rem;
-  color: var(--gray);
-  line-height: 1.8;
+  font-size: 1rem;
+  color: #2a8a7f;
+  line-height: 1.6;
   text-align: center;
   margin-bottom: 30px;
-  font-style: italic;
+  font-weight: 400;
+}
+
+.card-personal-message {
+  font-family: 'Lora', serif;
+  font-size: 0.95rem;
+  color: #2a8a7f;
+  text-align: center;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.3px;
 }
 
 .card-divider {
   height: 2px;
   background: linear-gradient(90deg, transparent, var(--primary), transparent);
   margin: 30px 0;
+  display: none;
 }
 
 .card-quote {
@@ -329,6 +362,38 @@ body {
   font-weight: 600;
   line-height: 1.6;
   letter-spacing: 0.3px;
+  display: none;
+}
+
+.card-confetti-top,
+.card-confetti-bottom {
+  position: absolute;
+  width: 100%;
+  height: 60px;
+  left: 0;
+  pointer-events: none;
+}
+
+.card-confetti-top {
+  top: 20px;
+  background-image: 
+    linear-gradient(45deg, transparent 48%, #2a8a7f 49%, #2a8a7f 51%, transparent 52%),
+    linear-gradient(-45deg, transparent 48%, #a8c5bf 49%, #a8c5bf 51%, transparent 52%),
+    linear-gradient(45deg, transparent 48%, #7fc5bb 49%, #7fc5bb 51%, transparent 52%);
+  background-size: 25px 25px, 35px 35px, 45px 45px;
+  background-position: 0 0, 10px 10px, 20px 20px;
+  background-repeat: repeat-x;
+}
+
+.card-confetti-bottom {
+  bottom: 20px;
+  background-image: 
+    linear-gradient(45deg, transparent 48%, #2a8a7f 49%, #2a8a7f 51%, transparent 52%),
+    linear-gradient(-45deg, transparent 48%, #a8c5bf 49%, #a8c5bf 51%, transparent 52%),
+    linear-gradient(45deg, transparent 48%, #7fc5bb 49%, #7fc5bb 51%, transparent 52%);
+  background-size: 25px 25px, 35px 35px, 45px 45px;
+  background-position: 0 0, 10px 10px, 20px 20px;
+  background-repeat: repeat-x;
 }
 
 /* Card Actions */
@@ -453,11 +518,22 @@ body {
   }
 
   .card {
-    padding: 35px 25px;
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .card-content-wrapper {
+    flex-direction: column;
   }
 
   .card-photo-container {
-    height: 250px;
+    width: 100%;
+    height: 300px;
+    min-height: 300px;
+  }
+
+  .card-content-section {
+    padding: 40px 30px;
   }
 
   .card-title {
@@ -465,7 +541,7 @@ body {
   }
 
   .card-message {
-    font-size: 1rem;
+    font-size: 0.95rem;
   }
 
   .card-actions {
