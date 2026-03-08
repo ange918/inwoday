@@ -1,4 +1,5 @@
 import './style.css';
+import bgImage from '@assets/IMG-20260308-WA0050_1772960053150.jpg';
 
 // Quotes in French about women
 const quotes = [
@@ -19,9 +20,14 @@ const quotes = [
   "Les femmes sont l'avenir."
 ];
 
+let userPhotoData = null;
+
 // Initialize the app
 function initApp() {
   const app = document.getElementById('app');
+  
+  // Set background image
+  app.style.backgroundImage = `url('${bgImage}')`;
   
   app.innerHTML = `
     <div class="container">
@@ -55,6 +61,27 @@ function initApp() {
               ></textarea>
             </div>
 
+            <div class="form-group">
+              <label for="photoUpload" class="label">Photo de la personne</label>
+              <div class="photo-upload-wrapper">
+                <input 
+                  type="file" 
+                  id="photoUpload" 
+                  class="photo-input" 
+                  accept="image/*"
+                />
+                <label for="photoUpload" class="photo-upload-label">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21 15 16 10 5 21"/>
+                  </svg>
+                  <span>Cliquez pour ajouter une photo</span>
+                </label>
+                <div id="photoPreview" class="photo-preview hidden"></div>
+              </div>
+            </div>
+
             <button type="submit" class="btn-generate">
               <span>Générer</span>
               <svg class="icon-btn" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -66,6 +93,9 @@ function initApp() {
 
         <div id="cardContainer" class="card-container hidden">
           <div id="card" class="card">
+            <div id="cardPhotoContainer" class="card-photo-container hidden">
+              <img id="cardPhoto" class="card-photo" src="" alt="Photo"/>
+            </div>
             <div class="card-header">
               <svg class="card-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
@@ -106,11 +136,15 @@ function initApp() {
     </div>
   `;
 
+  // Re-attach background after innerHTML
+  app.style.backgroundImage = `url('${bgImage}')`;
+
   // Event listeners
   const form = document.getElementById('inspireForm');
   const cardContainer = document.getElementById('cardContainer');
   const downloadBtn = document.getElementById('downloadBtn');
   const shareBtn = document.getElementById('shareBtn');
+  const photoInput = document.getElementById('photoUpload');
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -119,6 +153,25 @@ function initApp() {
 
   downloadBtn.addEventListener('click', downloadCard);
   shareBtn.addEventListener('click', shareCard);
+  
+  photoInput.addEventListener('change', (e) => {
+    handlePhotoUpload(e);
+  });
+}
+
+// Handle photo upload
+function handlePhotoUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    userPhotoData = e.target.result;
+    const preview = document.getElementById('photoPreview');
+    preview.innerHTML = `<img src="${userPhotoData}" alt="Preview"/>`;
+    preview.classList.remove('hidden');
+  };
+  reader.readAsDataURL(file);
 }
 
 // Generate inspirational card
@@ -136,6 +189,15 @@ function generateCard() {
   document.getElementById('cardTitle').textContent = `Pour ${womanName}`;
   document.getElementById('cardMessage').textContent = message;
   document.getElementById('cardQuote').textContent = `✨ "${randomQuote}"`;
+
+  // Update photo if provided
+  if (userPhotoData) {
+    const photoContainer = document.getElementById('cardPhotoContainer');
+    document.getElementById('cardPhoto').src = userPhotoData;
+    photoContainer.classList.remove('hidden');
+  } else {
+    document.getElementById('cardPhotoContainer').classList.add('hidden');
+  }
 
   // Show card with animation
   const cardContainer = document.getElementById('cardContainer');
